@@ -1,0 +1,1210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KoboHive</title>
+   <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="./Assets/favicon.svg">
+  <link rel="alternate icon" href="./Assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./Assets/favicon.svg">
+
+
+  <!-- Urbanist font -->
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: { DEFAULT: '#075442', 600: '#064a3f', 700:'#053a33' },
+            gold: '#C09834',
+            siteblack: '#060606',
+            softbg: '#E2E8F9',
+            subgray: '#999999'
+          },
+          fontFamily: { sans: ['Urbanist', 'ui-sans-serif', 'system-ui'] },
+          boxShadow: { 'lift-lg': '0 18px 40px rgba(6,20,12,0.08)' },
+          keyframes: {
+            'fade-up': { '0%': { opacity: '0', transform:'translateY(18px)' }, '100%': { opacity:'1', transform:'translateY(0)' } },
+            'pulse-soft': { '0%': { transform:'scale(1)' }, '50%': { transform:'scale(1.02)' }, '100%': { transform:'scale(1)' } },
+            'marquee': { '0%': { transform: 'translateX(0)' }, '100%': { transform: 'translateX(-50%)' } }
+          },
+          animation: { 
+            'fade-up': 'fade-up 640ms cubic-bezier(.16,.8,.3,1) both', 
+            'pulse-soft': 'pulse-soft 2200ms ease-in-out infinite',
+            'marquee': 'marquee 30s linear infinite'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root{
+      --brand:#075442; --gold:#C09834; --black:#060606; --softbg:#E2E8F9; --subgray:#999999;
+    }
+    html,body{font-family:'Urbanist',system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;color:var(--black);}
+    .link-underline{position:relative;display:inline-block}
+    .link-underline::after{content:"";position:absolute;left:0;bottom:-6px;height:3px;width:0;background:linear-gradient(90deg,var(--brand),#0a6d55);border-radius:6px;transition:width .25s}
+    .link-underline:hover::after{width:100%}
+    .pill{border-radius:999px;padding:.5rem 1.1rem}
+    .thin-box{border:1px solid rgba(6,20,12,0.06);border-radius:12px;background:white}
+    .card-lift{transition:transform .26s cubic-bezier(.2,.9,.3,1),box-shadow .26s}
+    .card-lift:hover,.card-lift:focus-within{transform:translateY(-8px);box-shadow:0 18px 40px rgba(6,20,12,0.08)}
+    .img-zoom{transition:transform .42s cubic-bezier(.2,.9,.3,1)}
+    .img-zoom:hover{transform:scale(1.04)}
+    .cta-pulse{animation:pulse-soft 2200ms ease-in-out infinite}
+    [data-reveal]{opacity:0;transform:translateY(18px);transition:opacity .56s cubic-bezier(.16,.8,.3,1),transform .56s cubic-bezier(.16,.8,.3,1)}
+    [data-reveal].visible{opacity:1;transform:translateY(0)}
+    .hero-decor{position:absolute;right:6%;top:8%;transform:translateY(-6%);opacity:.95}
+    .scrollbar-hide::-webkit-scrollbar{display:none}
+    .scrollbar-hide{-ms-overflow-style:none;scrollbar-width:none}
+    
+    /* Marquee Styles */
+    .marquee-container {
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .marquee-content {
+      display: inline-flex;
+      animation: marquee 30s linear infinite;
+    }
+    
+    .marquee-content:hover {
+      animation-play-state: paused;
+    }
+    
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    
+    @media (max-width:640px){ 
+      .compact-gap{gap:.6rem} 
+      .compact-pt{padding-top:.75rem;padding-bottom:.75rem} 
+    }
+    
+    /* Improved padding for larger screens */
+    @media (min-width: 1280px) {
+      .section-padding {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+    }
+    
+    @media (min-width: 1536px) {
+      .section-padding {
+        padding-left: 3rem;
+        padding-right: 3rem;
+      }
+    }
+  </style>
+</head>
+<body class="bg-white">
+
+  <!-- Header -->
+  <header class="w-full sticky top-0 z-[999] bg-white/90 backdrop-blur-md border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <!-- Logo -->
+      <div class="flex items-center gap-3">
+        <img src="assets/L1.svg" class="w-12 h-12" alt="Kobohive">
+        <span class="text-xl font-semibold text-[#060606]">Kobohive</span>
+      </div>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-12 text-[15px] font-medium text-[#060606]">
+        <a href="#about" class="hover:text-[#075442] transition">About</a>
+        <a href="#why" class="hover:text-[#075442] transition">Why Us</a>
+        <a href="#workshops" class="hover:text-[#075442] transition">Workshops</a>
+        <a href="#courses" class="hover:text-[#075442] transition">Courses</a>
+      </nav>
+
+      <!-- CTA Button -->
+      <a href="#courses"
+        class="hidden md:inline-block px-6 py-3 rounded-xl bg-[#075442] text-white font-semibold hover:bg-[#064a3c] transition">
+        Start a Course
+      </a>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobileBtn" class="md:hidden p-2">
+        <svg class="w-8 h-8" fill="none" stroke="#060606" viewBox="0 0 24 24">
+          <path stroke-width="2" stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- MOBILE MENU -->
+    <div id="mobileMenu"
+        class="hidden md:hidden bg-white border-t border-slate-200 px-6 pb-5 pt-3">
+      <nav class="flex flex-col gap-4 text-[15px] text-[#060606] font-medium">
+        <a href="#about" class="hover:text-[#075442] transition">About</a>
+        <a href="#why" class="hover:text-[#075442] transition">Why Us</a>
+        <a href="#workshops" class="hover:text-[#075442] transition">Workshops</a>
+        <a href="#courses" class="hover:text-[#075442] transition">Courses</a>
+
+        <a href="#courses"
+          class="mt-3 px-6 py-3 rounded-xl bg-[#075442] text-white font-semibold text-center hover:bg-[#064a3c] transition">
+          Start a Course
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative w-full bg-[#FAFAFA] pt-10 pb-12">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+      <!-- Left Text Area -->
+      <div class="flex flex-col justify-center items-start space-y-6">
+        <p class="text-[#075442] text-sm font-medium uppercase tracking-wide">LEARN. GROW. INVEST.</p>
+
+        <!-- Main Heading -->
+        <div class="space-y-2">
+          <h1 class="text-5xl font-semibold leading-[1.1] text-[#075442]">
+            Become a Confident,<br />
+            Smart & Independent
+          </h1>
+
+          <!-- Sub Heading -->
+          <h2 class="text-5xl font-bold text-[#C09834] italic leading-[1.1]">
+            Investor
+          </h2>
+        </div>
+
+        <p class="text-[#999999] text-[18px] leading-[30px] max-w-xl">
+          Learn practical investing the African way simple, clear, and built for beginners.
+          Whether you're starting with ₦5,000 or ₦5,000,000, you deserve to understand how money grows.
+        </p>
+
+        <!-- Buttons -->
+        <div class="flex flex-wrap gap-4 pt-2">
+          <a href="#workshops"
+            class="px-8 py-4 rounded-xl bg-[#075442] text-white font-semibold hover:bg-[#064a3c] transition">
+            Join a Workshop
+          </a>
+
+          <a href="#courses"
+            class="px-8 py-4 rounded-xl border border-[#DDDDDD] text-[#060606] font-semibold hover:bg-[#f2f2f2] transition">
+            Start a Self-Paced Course
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Image -->
+      <div class="relative w-full flex justify-center lg:justify-end">
+        <img src="./assets/H5.png"
+            class="relative w-[480px] lg:w-[520px] object-cover -mt-16 lg:-mt-14"
+            alt="hero-image">
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Marquee Section -->
+  <section class="bg-brand py-5 overflow-hidden">
+    <div class="marquee-container">
+      <div class="marquee-content flex space-x-16 animate-marquee whitespace-nowrap">
+        <!-- Item 1 -->
+        <div class="flex items-center space-x-4">
+          <img src="./assets/Union.svg" alt="Beginner Friendly" class="w-7 h-7">
+          <span class="text-white font-medium text-xl">BEGINNER FRIENDLY</span>
+        </div>
+        
+        <!-- Item 2 -->
+        <div class="flex items-center space-x-4">
+          <img src="./assets/Union.svg" alt="Students Trained" class="w-7 h-7">
+          <span class="text-white font-medium text-xl">100+ STUDENTS TRAINED</span>
+        </div>
+        
+        <!-- Item 3 -->
+        <div class="flex items-center space-x-4">
+          <img src="./assets/Union.svg" alt="Community Support" class="w-7 h-7">
+          <span class="text-white font-medium text-xl">COMMUNITY SUPPORT INCLUDED</span>
+        </div>
+        
+        <!-- Item 4 -->
+        <div class="flex items-center space-x-4">
+          <img src="./assets/Union.svg" alt="African Investors" class="w-7 h-7">
+          <span class="text-white font-medium text-xl">100,000 AFRICAN INVESTORS</span>
+        </div>
+        
+        <!-- Duplicate for seamless loop -->
+        <!-- Item 1 -->
+        <div class="flex items-center space-x-4">
+          <img src="./assets/Union.svg" alt="Beginner Friendly" class="w-7 h-7">
+          <span class="text-white font-medium text-xl">BEGINNER FRIENDLY</span>
+        </div>
+        
+        <!-- Item 2 -->
+        <div class="flex items-center space-x-4">
+          <img src="./assets/Union.svg" alt="Students Trained" class="w-7 h-7">
+          <span class="text-white font-medium text-xl">100+ STUDENTS TRAINED</span>
+        </div>
+        
+        <!-- Item 3 -->
+        <div class="flex items-center space-x-4">
+          <img src="./assets/Union.svg" alt="Community Support" class="w-7 h-7">
+          <span class="text-white font-medium text-xl">COMMUNITY SUPPORT INCLUDED</span>
+        </div>
+        
+        <!-- Item 4 -->
+        <div class="flex items-center space-x-4">
+          <img src="./assets/Union.svg" alt="African Investors" class="w-7 h-7">
+          <span class="text-white font-medium text-xl">100,000 AFRICAN INVESTORS</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Workshops Section -->
+  <section id="workshops" class="bg-white py-16 section-padding">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <!-- Header with Navigation -->
+      <div class="flex items-start justify-between mb-12">
+        <div>
+          <p class="text-sm text-subgray mb-2 font-normal uppercase tracking-wider">WORKSHOPS</p>
+          <h2 class="text-[42px] font-light leading-tight mb-3">
+            Our Signature <span class="text-gold font-normal italic">Workshops</span>
+          </h2>
+          <p class="text-subgray text-base font-normal">Practical, hands-on learning for real results</p>
+        </div>
+        
+        <!-- Navigation Buttons -->
+        <div class="flex items-center gap-3 flex-shrink-0">
+          <button id="prevWs" class="w-12 h-12 rounded-full bg-gray-100 hover:bg-brand hover:text-white text-gray-600 flex items-center justify-center transition-all">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <button id="nextWs" class="w-12 h-12 rounded-full bg-brand hover:bg-brand-600 text-white flex items-center justify-center transition-all">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Workshop Cards Container -->
+      <div class="relative">
+        <div id="workshopTrack" class="flex gap-6 overflow-x-auto scrollbar-hide pb-6">
+          
+          <!-- Workshop Card 1 -->
+          <article class="min-w-[400px] max-w-[400px] h-[420px] flex-shrink-0 bg-white rounded-2xl border border-[#E2E8F9] overflow-hidden">
+            <!-- Image Section -->
+            <div class="relative h-56 bg-gradient-to-br from-gray-800 to-gray-900 m-5 rounded-xl overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop" 
+                  alt="Stock market chart" 
+                  class="w-full h-full object-cover opacity-70">
+              <!-- Duration Badge on Image -->
+              <div class="absolute bottom-4 left-4">
+                <span class="inline-block bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-medium border border-white/30 uppercase">
+                  7 DAYS
+                </span>
+              </div>
+            </div>
+            
+            <!-- Content Section -->
+            <div class="px-5 pb-5">
+              <h3 class="text-lg font-normal text-siteblack mb-2">
+                Nigerian Stock Market
+              </h3>
+              
+              <p class="text-subgray text-sm leading-relaxed mb-4">
+                Our flagship, practical workshop for beginners who want to start investing in the Nigerian stock market confidently...
+              </p>
+              
+              <button class="w-full border border-brand text-brand hover:bg-brand hover:text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all">
+                Join a Workshop
+              </button>
+            </div>
+          </article>
+
+          <!-- Workshop Card 2 -->
+          <article class="min-w-[400px] max-w-[400px] h-[420px] flex-shrink-0 bg-white rounded-2xl border border-[#E2E8F9] overflow-hidden">
+            <div class="relative h-56 bg-gradient-to-br from-gray-800 to-gray-900 m-5 rounded-xl overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop" 
+                  alt="Stock market chart" 
+                  class="w-full h-full object-cover opacity-70">
+              <div class="absolute bottom-4 left-4">
+                <span class="inline-block bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-medium border border-white/30 uppercase">
+                  7 DAYS
+                </span>
+              </div>
+            </div>
+            <div class="px-5 pb-5">
+              <h3 class="text-lg font-normal text-siteblack mb-2">
+                Nigerian Stock Market
+              </h3>
+              <p class="text-subgray text-sm leading-relaxed mb-4">
+                Our flagship, practical workshop for beginners who want to start investing in the Nigerian stock market confidently...
+              </p>
+              <button class="w-full border border-brand text-brand hover:bg-brand hover:text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all">
+                Join a Workshop
+              </button>
+            </div>
+          </article>
+
+          <!-- Workshop Card 3 -->
+          <article class="min-w-[400px] max-w-[400px] h-[420px] flex-shrink-0 bg-white rounded-2xl border border-[#E2E8F9] overflow-hidden">
+            <div class="relative h-56 bg-gradient-to-br from-gray-800 to-gray-900 m-5 rounded-xl overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop" 
+                  alt="Stock market chart" 
+                  class="w-full h-full object-cover opacity-70">
+              <div class="absolute bottom-4 left-4">
+                <span class="inline-block bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-medium border border-white/30 uppercase">
+                  7 DAYS
+                </span>
+              </div>
+            </div>
+            <div class="px-5 pb-5">
+              <h3 class="text-lg font-normal text-siteblack mb-2">
+                Nigerian Stock Market
+              </h3>
+              <p class="text-subgray text-sm leading-relaxed mb-4">
+                Our flagship, practical workshop for beginners who want to start investing in the Nigerian stock market confidently...
+              </p>
+              <button class="w-full border border-brand text-brand hover:bg-brand hover:text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all">
+                Join a Workshop
+              </button>
+            </div>
+          </article>
+
+          <!-- Workshop Card 4 -->
+          <article class="min-w-[400px] max-w-[400px] h-[420px] flex-shrink-0 bg-white rounded-2xl border border-[#E2E8F9] overflow-hidden">
+            <div class="relative h-56 bg-gradient-to-br from-gray-800 to-gray-900 m-5 rounded-xl overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop" 
+                  alt="Stock market chart" 
+                  class="w-full h-full object-cover opacity-70">
+              <div class="absolute bottom-4 left-4">
+                <span class="inline-block bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-medium border border-white/30 uppercase">
+                  7 DAYS
+                </span>
+              </div>
+            </div>
+            <div class="px-5 pb-5">
+              <h3 class="text-lg font-normal text-siteblack mb-2">
+                Nigerian Stock Market
+              </h3>
+              <p class="text-subgray text-sm leading-relaxed mb-4">
+                Our flagship, practical workshop for beginners who want to start investing in the Nigerian stock market confidently...
+              </p>
+              <button class="w-full border border-brand text-brand hover:bg-brand hover:text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition-all">
+                Join a Workshop
+              </button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- Courses Section -->
+  <section id="courses" class="bg-[#FAFAFA] py-16 relative overflow-hidden section-padding">
+    <img 
+      src="./assets/C1.svg" 
+      alt="Decorative Swirl" 
+      class="absolute top-0 right-0 w-32 h-32 md:w-48 md:h-48 z-0 transform translate-x-1/2 -translate-y-3/4"
+    />
+    
+    <img 
+      src="./assets/C2.svg" 
+      alt="Decorative Shape" 
+      class="absolute bottom-0 left-0 w-48 h-48 md:w-64 md:h-64 z-0 transform -translate-x-1/3 translate-y-1/3"
+    />
+
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+      <div class="text-center mb-12" data-reveal>
+        <p class="text-sm text-subgray mb-2 font-medium uppercase tracking-widest">COURSES</p>
+        <h2 class="text-4xl font-light leading-tight">
+          Grow at Your Own <span class="text-gold font-normal italic">Pace</span>
+        </h2>
+        <p class="text-subgray mt-3 text-[17px] font-normal">Self-paced mini-courses designed for busy professionals</p>
+      </div>
+      
+      <div class="flex flex-wrap justify-center items-center gap-3 mb-12" data-reveal>
+        <button class="rounded-md bg-brand text-white text-sm font-medium px-4 py-2 transition hover:bg-brand-600">
+          FINANCE
+        </button>
+        <button class="rounded-md bg-white text-subgray border border-slate-200 text-sm font-medium px-4 py-2 transition hover:border-brand hover:text-brand">
+          ETF
+        </button>
+        <button class="rounded-md bg-white text-subgray border border-slate-200 text-sm font-medium px-4 py-2 transition hover:border-brand hover:text-brand">
+          MEME COINS
+        </button>
+        <button class="rounded-md bg-white text-subgray border border-slate-200 text-sm font-medium px-4 py-2 transition hover:border-brand hover:text-brand">
+          CRYPTOCURRENCY
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" data-reveal>
+        
+        <!-- Course Card 1 -->
+        <article class="bg-white rounded-2xl overflow-hidden card-lift border border-[#E2E8F9]">
+          <div class="relative h-48 bg-gray-800 m-4 rounded-xl overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop" 
+                  alt="Stock market on phone" 
+                  class="w-full h-full object-cover opacity-80 img-zoom">
+            <div class="absolute bottom-4 left-4">
+              <span class="inline-block bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-lg text-xs font-medium border border-white/30 uppercase">
+                7 DAYS
+              </span>
+            </div>
+          </div>
+          
+          <div class="px-5 pb-5">
+            <h4 class="text-base font-semibold text-siteblack mb-1">
+              Introduction to Personal Finance
+            </h4>
+            <p class="text-subgray text-sm leading-relaxed mb-4">
+              Our flagship, practical workshop for beginners who want to start investing in the Nigerian stock market confidently...
+            </p>
+            <div class="mt-2 flex items-center justify-between">
+              <div class="text-base font-bold text-siteblack">
+                ₦50,000
+              </div>
+              <a href="#enroll" class="inline-flex items-center justify-center border border-brand text-brand px-5 py-2.5 rounded-lg text-sm font-semibold transition hover:bg-brand hover:text-white">
+                Get Started
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Course Card 2 -->
+        <article class="bg-white rounded-2xl overflow-hidden card-lift border border-[#E2E8F9]">
+          <div class="relative h-48 bg-gray-800 m-4 rounded-xl overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop" alt="Stock market on phone" class="w-full h-full object-cover opacity-80 img-zoom">
+            <div class="absolute bottom-4 left-4">
+              <span class="inline-block bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-lg text-xs font-medium border border-white/30 uppercase">7 DAYS</span>
+            </div>
+          </div>
+          <div class="px-5 pb-5">
+            <h4 class="text-base font-semibold text-siteblack mb-1">Introduction to Personal Finance</h4>
+            <p class="text-subgray text-sm leading-relaxed mb-4">Our flagship, practical workshop for beginners who want to start investing in the Nigerian stock market confidently...</p>
+            <div class="mt-2 flex items-center justify-between">
+              <div class="text-base font-bold text-siteblack">₦50,000</div>
+              <a href="#enroll" class="inline-flex items-center justify-center border border-brand text-brand px-5 py-2.5 rounded-lg text-sm font-semibold transition hover:bg-brand hover:text-white">
+                Get Started
+              </a>
+            </div>
+          </div>
+        </article>
+        
+        <!-- Course Card 3 -->
+        <article class="bg-white rounded-2xl overflow-hidden card-lift border border-[#E2E8F9]">
+          <div class="relative h-48 bg-gray-800 m-4 rounded-xl overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop" alt="Stock market on phone" class="w-full h-full object-cover opacity-80 img-zoom">
+            <div class="absolute bottom-4 left-4">
+              <span class="inline-block bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-lg text-xs font-medium border border-white/30 uppercase">7 DAYS</span>
+            </div>
+          </div>
+          <div class="px-5 pb-5">
+            <h4 class="text-base font-semibold text-siteblack mb-1">Introduction to Personal Finance</h4>
+            <p class="text-subgray text-sm leading-relaxed mb-4">Our flagship, practical workshop for beginners who want to start investing in the Nigerian stock market confidently...</p>
+            <div class="mt-2 flex items-center justify-between">
+              <div class="text-base font-bold text-siteblack">₦50,000</div>
+              <a href="#enroll" class="inline-flex items-center justify-center border border-brand text-brand px-5 py-2.5 rounded-lg text-sm font-semibold transition hover:bg-brand hover:text-white">
+                Get Started
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Course Card 4 -->
+        <article class="bg-white rounded-2xl overflow-hidden card-lift border border-[#E2E8F9]">
+          <div class="relative h-48 bg-gray-800 m-4 rounded-xl overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop" alt="Stock market on phone" class="w-full h-full object-cover opacity-80 img-zoom">
+            <div class="absolute bottom-4 left-4">
+              <span class="inline-block bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-lg text-xs font-medium border border-white/30 uppercase">7 DAYS</span>
+            </div>
+          </div>
+          <div class="px-5 pb-5">
+            <h4 class="text-base font-semibold text-siteblack mb-1">Introduction to Personal Finance</h4>
+            <p class="text-subgray text-sm leading-relaxed mb-4">Our flagship, practical workshop for beginners who want to start investing in the Nigerian stock market confidently...</p>
+            <div class="mt-2 flex items-center justify-between">
+              <div class="text-base font-bold text-siteblack">₦50,000</div>
+              <a href="#enroll" class="inline-flex items-center justify-center border border-brand text-brand px-5 py-2.5 rounded-lg text-sm font-semibold transition hover:bg-brand hover:text-white">
+                Get Started
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Course Card 5 -->
+        <article class="bg-white rounded-2xl overflow-hidden card-lift border border-[#E2E8F9]">
+          <div class="relative h-48 bg-gray-800 m-4 rounded-xl overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop" alt="Stock market on phone" class="w-full h-full object-cover opacity-80 img-zoom">
+            <div class="absolute bottom-4 left-4">
+              <span class="inline-block bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-lg text-xs font-medium border border-white/30 uppercase">7 DAYS</span>
+            </div>
+          </div>
+          <div class="px-5 pb-5">
+            <h4 class="text-base font-semibold text-siteblack mb-1">Introduction to Personal Finance</h4>
+            <p class="text-subgray text-sm leading-relaxed mb-4">Our flagship, practical workshop for beginners who want to start investing in the Nigerian stock market confidently...</p>
+            <div class="mt-2 flex items-center justify-between">
+              <div class="text-base font-bold text-siteblack">₦50,000</div>
+              <a href="#enroll" class="inline-flex items-center justify-center border border-brand text-brand px-5 py-2.5 rounded-lg text-sm font-semibold transition hover:bg-brand hover:text-white">
+                Get Started
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Course Card 6 -->
+        <article class="bg-white rounded-2xl overflow-hidden card-lift border border-[#E2E8F9]">
+          <div class="relative h-48 bg-gray-800 m-4 rounded-xl overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=600&fit=crop" alt="Stock market on phone" class="w-full h-full object-cover opacity-80 img-zoom">
+            <div class="absolute bottom-4 left-4">
+              <span class="inline-block bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-lg text-xs font-medium border border-white/30 uppercase">7 DAYS</span>
+            </div>
+          </div>
+          <div class="px-5 pb-5">
+            <h4 class="text-base font-semibold text-siteblack mb-1">Introduction to Personal Finance</h4>
+            <p class="text-subgray text-sm leading-relaxed mb-4">Our flagship, practical workshop for beginners who want to start investing in the Nigerian stock market confidently...</p>
+            <div class="mt-2 flex items-center justify-between">
+              <div class="text-base font-bold text-siteblack">₦50,000</div>
+              <a href="#enroll" class="inline-flex items-center justify-center border border-brand text-brand px-5 py-2.5 rounded-lg text-sm font-semibold transition hover:bg-brand hover:text-white">
+                Get Started
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+      
+      <div class="mt-12 text-center" data-reveal>
+        <a class="inline-block bg-brand text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-600 transition" href="#courses">
+          Explore More Courses
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="bg-white py-20 section-padding"> 
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <p class="text-xs text-subgray mb-2 font-light uppercase tracking-widest">WHO WE ARE</p>
+        <h2 class="text-4xl font-light leading-tight">
+          About <span class="text-gold font-normal italic">KoboHive Academy</span>
+        </h2>
+        <p class="text-subgray mt-4 max-w-3xl mx-auto text-base">
+          Kobohive Academy is the learning and educational arm of Kobohive Technologies Limited, created 
+          to build a community of intentional, disciplined, and financially literate Africans.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Card 1 -->
+        <div class="bg-[#FAFAFA] border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col transition duration-300 hover:scale-105 hover:shadow-lg" data-reveal>
+          <div class="pt-6 px-6 pb-4"> 
+              <div class="w-8 h-8 rounded-full bg-brand text-white text-sm font-bold flex items-center justify-center mb-4">1</div>
+              <h4 class="text-base font-semibold text-siteblack">100+ STUDENTS</h4>
+              <p class="text-subgray text-sm">Trained in 8 months</p>
+          </div>
+          
+          <div class="flex-grow flex items-end"> 
+              <img src="./assets/WH1.svg" alt="Student smiling with thumb up" class="w-full h-auto object-cover"/>
+          </div>
+        </div>
+        
+        <!-- Card 2 -->
+        <div class="bg-[#FAFAFA] border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col transition duration-300 hover:scale-105 hover:shadow-lg" data-reveal>
+          <div class="pt-6 px-6 pb-4">
+              <div class="w-8 h-8 rounded-full bg-brand text-white text-sm font-bold flex items-center justify-center mb-4">2</div>
+              <h4 class="text-base font-semibold text-siteblack">FIRST INVESTMENTS</h4>
+              <p class="text-subgray text-sm">Helped beginners buy their first-ever stock</p>
+          </div>
+          
+          <div class="flex-grow flex items-end">
+              <img src="./assets/WH2.svg" alt="Man checking phone" class="w-full h-auto object-cover"/>
+          </div>
+        </div>
+        
+        <!-- Card 3 -->
+        <div class="bg-[#FAFAFA] border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col transition duration-300 hover:scale-105 hover:shadow-lg" data-reveal>
+          <div class="pt-6 px-6 pb-4">
+              <div class="w-8 h-8 rounded-full bg-brand text-white text-sm font-bold flex items-center justify-center mb-4">3</div>
+              <h4 class="text-base font-semibold text-siteblack">SIMPLIFIED LEARNING</h4>
+              <p class="text-subgray text-sm">Complex concepts into everyday language</p>
+          </div>
+          
+          <div class="flex-grow flex items-end">
+              <img src="./assets/WH3.svg" alt="Man reading book" class="w-full h-auto object-cover"/>
+          </div>
+        </div>
+        
+        <!-- Card 4 -->
+        <div class="bg-[#FAFAFA] border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col transition duration-300 hover:scale-105 hover:shadow-lg" data-reveal>
+          <div class="pt-6 px-6 pb-4">
+              <div class="w-8 h-8 rounded-full bg-brand text-white text-sm font-bold flex items-center justify-center mb-4">4</div>
+              <h4 class="text-base font-semibold text-siteblack">SUPPORTIVE COMMUNITY</h4>
+              <p class="text-subgray text-sm">Fun and supportive investment community</p>
+          </div>
+          
+          <div class="flex-grow flex items-end">
+              <img src="./assets/WH4.svg" alt="Hands in a team huddle" class="w-full h-auto object-cover"/>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-12">
+          <p class="text-sm italic font-medium">We believe investing is not a privilege, it is a life skill every African deserves.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Impact Section -->
+  <section id="impact" class="bg-[#FAFAFA] py-16 section-padding">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-12" data-reveal>
+        <p class="text-sm font-light text-green-700 tracking-wider uppercase">OUR NUMBERS</p>
+        <h2 class="text-5xl font-light mt-2 leading-tight">
+          Our Impact <span class="text-gold font-normal">So Far</span>
+        </h2>
+        <p class="text-subgray mt-2 text-base font-light text-center">
+          Building Africa's investor community, one student at a time
+        </p>
+      </div>
+
+      <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4" data-reveal>
+        <!-- Stat 1 -->
+        <div class="flex flex-col items-center justify-center p-6 sm:border-r sm:border-gray-200 text-center">
+          <div class="text-5xl font-normal text-green-700">100+</div>
+          <div class="text-base text-subgray mt-3 font-light">STUDENTS TRAINED</div>
+        </div>
+        
+        <!-- Stat 2 -->
+        <div class="flex flex-col items-center justify-center p-6 sm:border-r sm:border-gray-200 text-center">
+          <div class="text-5xl font-normal text-[#016954]">80%</div>
+          <div class="text-base text-subgray mt-3 font-light">MADE FIRST INVESTMENT<br/>WITHIN 2 WEEKS</div>
+        </div>
+        
+        <!-- Stat 3 -->
+        <div class="flex flex-col items-center justify-center p-6 sm:border-r sm:border-gray-200 text-center">
+          <div class="text-5xl font-normal text-[#016954]">5+</div>
+          <div class="text-base text-subgray mt-3 font-light">COHORTS COMPLETED<br/>SUCCESSFULLY</div>
+        </div>
+        
+        <!-- Stat 4 -->
+        <div class="flex flex-col items-center justify-center p-6 text-center">
+          <div class="text-5xl font-normal text-[#016954]">4+</div>
+          <div class="text-base text-subgray mt-3 font-light">COUNTRIES (NIGERIA, GHANA,<br/>KENYA, SOUTH AFRICA)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Learn Section -->
+  <section class="bg-white py-12 section-padding">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8 mb-10">
+      <div class="text-center">
+        <p class="text-sm font-light text-green-700">LEARN WITH US</p>
+        <h2 class="text-4xl font-light mt-1 leading-tight">
+          Why Learn with <span class="text-gold font-normal">Kobohive Academy</span>
+        </h2>
+        <p class="text-subgray mt-2 text-base font-light">
+          We're different because we focus on what actually works
+        </p>
+      </div>
+    </div>
+
+    <div id="card-carousel" class="flex gap-6 overflow-x-auto py-3 px-6 lg:px-8 scrollbar-hide">
+      <!-- Cards -->
+      <div class="min-w-[240px] rounded-xl overflow-hidden transition duration-300 original-card" data-reveal>
+        <img src="./assets/WL1.png" alt="Card 1" class="w-full h-full object-cover min-h-[300px]"/>
+      </div>
+
+      <div class="min-w-[240px] rounded-xl overflow-hidden transition duration-300 original-card" data-reveal>
+        <img src="./assets/WL2.png" alt="Card 2" class="w-full h-full object-cover min-h-[300px]"/>
+      </div>
+
+      <div class="min-w-[240px] rounded-xl overflow-hidden transition duration-300 original-card" data-reveal>
+        <img src="./assets/WL3.png" alt="Card 3" class="w-full h-full object-cover min-h-[300px]"/>
+      </div>
+      
+      <div class="min-w-[240px] rounded-xl overflow-hidden transition duration-300 original-card" data-reveal>
+        <img src="./assets/WL4.png" alt="Card 4" class="w-full h-full object-cover min-h-[300px]"/>
+      </div>
+      
+      <div class="min-w-[240px] rounded-xl overflow-hidden transition duration-300 original-card" data-reveal>
+        <img src="./assets/WL5.png" alt="Card 5" class="w-full h-full object-cover min-h-[300px]"/>
+      </div>
+      
+      <div class="min-w-[240px] rounded-xl overflow-hidden transition duration-300 original-card" data-reveal>
+        <img src="./assets/WL6.png" alt="Card 6" class="w-full h-full object-cover min-h-[300px]"/>
+      </div>
+      
+      <div class="min-w-[240px] rounded-xl overflow-hidden transition duration-300 original-card" data-reveal>
+        <img src="./assets/WL7.png" alt="Card 7" class="w-full h-full object-cover min-h-[300px]"/>
+      </div>
+      
+      <div class="min-w-[240px] rounded-xl overflow-hidden transition duration-300 original-card" data-reveal>
+        <img src="./assets/WL8.png" alt="Card 8" class="w-full h-full object-cover min-h-[300px]"/>
+      </div>
+      
+      <div class="min-w-[240px] rounded-xl overflow-hidden transition duration-300 original-card" data-reveal>
+        <img src="./assets/WL9.png" alt="Card 9" class="w-full h-full object-cover min-h-[300px]"/>
+      </div>
+      
+      <div class="min-w-[240px] rounded-xl overflow-hidden transition duration-300 original-card" data-reveal>
+        <img src="./assets/WL10.png" alt="Card 10" class="w-full h-full object-cover min-h-[300px]"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="bg-white py-20 section-padding">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <!-- Header Section -->
+      <div class="text-center mb-12">
+        <p class="text-sm font-light text-gray-500">TESTIMONIAL</p>
+        <h3 class="text-4xl font-light mt-1 leading-snug text-siteblack">
+          What Our Students Are <span class="font-normal text-yellow-600">Saying</span>
+        </h3>
+        <p class="text-subgray mt-2 text-base font-light">
+          Real results from real people
+        </p>
+      </div>
+
+      <!-- Testimonial Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-6 gap-6">
+        <!-- Row 1, Card 1 -->
+        <div class="p-8 rounded-3xl bg-white border border-gray-200 hover:border-gray-400 transition duration-300 md:col-span-3 lg:col-span-3" data-reveal>
+          <p class="text-lg font-light text-siteblack leading-relaxed">
+            Kobohive helped me buy my first stock ever. The tutor made everything so simple.
+          </p>
+          <div class="mt-6 font-medium text-siteblack text-sm">AMARACHI</div>
+        </div>
+
+        <!-- Row 1, Card 2 -->
+        <div class="p-8 rounded-3xl bg-white border border-gray-200 hover:border-gray-400 transition duration-300 md:col-span-3 lg:col-span-2" data-reveal>
+          <p class="text-lg font-light text-siteblack leading-relaxed">
+            Before this class I was scared of investing. Now I understand what to buy and why.
+          </p>
+          <div class="mt-6 font-medium text-siteblack text-sm">TUNDE</div>
+        </div>
+
+        <!-- Row 1, Card 3 -->
+        <div class="rounded-3xl overflow-hidden border border-gray-200 hover:border-gray-400 transition duration-300 bg-gray-100 md:col-span-3 lg:col-span-1" data-reveal>
+          <img src="./assets/T1.png" 
+               alt="Happy students group" 
+               class="w-full h-full object-cover min-h-[200px]"/>
+        </div>
+        
+        <!-- Row 2, Card 4 -->
+        <div class="rounded-3xl overflow-hidden border border-gray-200 hover:border-gray-400 transition duration-300 bg-gray-100 md:col-span-3 lg:col-span-1" data-reveal>
+          <img src="./assets/T2.png" 
+               alt="Happy student looking at phone" 
+               class="w-full h-full object-cover min-h-[220px]"/>
+        </div>
+
+        <!-- Row 2, Card 5 -->
+        <div class="p-8 rounded-3xl bg-white border border-gray-200 hover:border-gray-400 transition duration-300 md:col-span-3 lg:col-span-3" data-reveal>
+          <p class="text-lg font-light text-siteblack leading-relaxed">
+            The sessions were practical and I could ask any question. Love the community!
+          </p>
+          <div class="mt-6 font-medium text-siteblack text-sm">BLESSING</div>
+        </div>
+
+        <!-- Row 2, Card 6 -->
+        <div class="p-8 rounded-3xl bg-white border border-gray-200 hover:border-gray-400 transition duration-300 md:col-span-3 lg:col-span-2" data-reveal>
+          <p class="text-lg font-light text-siteblack leading-relaxed">
+            Their US Market class opened my eyes. I now invest in ETFs and earn in dollars.
+          </p>
+          <div class="mt-6 font-medium text-siteblack text-sm">BAYO</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="bg-white py-20 section-padding">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <!-- Header Section -->
+      <div class="text-center mb-16">
+        <p class="text-sm font-light text-green-700 tracking-wider uppercase mb-1">FAQ</p>
+        <h3 class="text-5xl font-light leading-snug text-siteblack">
+          Frequently Asked <span class="font-normal text-yellow-600">Questions</span>
+        </h3>
+        <p class="text-subgray mt-2 text-base font-light">
+          Got questions? We've got answers
+        </p>
+      </div>
+
+      <!-- FAQ Grid Container -->
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+        <!-- Column 1 FAQs -->
+        <div class="space-y-4">
+          <!-- FAQ Item 1 -->
+          <div class="faq-item-wrapper border border-gray-100 bg-white rounded-2xl p-0 shadow-sm">
+            <button class="w-full flex items-center justify-between faq-toggle p-5 text-left" aria-expanded="false">
+              <span class="text-lg font-light text-siteblack">Do I need any prior knowledge?</span>
+              <svg class="w-6 h-6 transform transition duration-300 text-green-700 faq-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+            </button>
+            <div class="faq-panel px-5 pt-0 text-subgray text-base leading-relaxed overflow-hidden max-h-0 transition-all duration-300">
+              <div class="pb-5">No. We start from the absolute basics and progress with practical exercises and mentorship. Our academy is designed for complete beginners.</div>
+            </div>
+          </div>
+
+          <!-- FAQ Item 2 -->
+          <div class="faq-item-wrapper border border-gray-100 bg-white rounded-2xl p-0 shadow-sm">
+            <button class="w-full flex items-center justify-between faq-toggle p-5 text-left" aria-expanded="false">
+              <span class="text-lg font-light text-siteblack">Will I need a laptop?</span>
+              <svg class="w-6 h-6 transform transition duration-300 text-green-700 faq-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+            </button>
+            <div class="faq-panel px-5 pt-0 text-subgray text-base leading-relaxed overflow-hidden max-h-0 transition-all duration-300">
+              <div class="pb-5">Yes, a laptop or desktop computer is highly recommended for the best experience, especially for practical exercises on trading platforms.</div>
+            </div>
+          </div>
+
+          <!-- FAQ Item 3 -->
+          <div class="faq-item-wrapper border border-gray-100 bg-white rounded-2xl p-0 shadow-sm">
+            <button class="w-full flex items-center justify-between faq-toggle p-5 text-left" aria-expanded="false">
+              <span class="text-lg font-light text-siteblack">Are the sessions recorded?</span>
+              <svg class="w-6 h-6 transform transition duration-300 text-green-700 faq-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+            </button>
+            <div class="faq-panel px-5 pt-0 text-subgray text-base leading-relaxed overflow-hidden max-h-0 transition-all duration-300">
+              <div class="pb-5">Yes, all live workshops are recorded and made available to participants within 24 hours. You can access them anytime within your subscription period.</div>
+            </div>
+          </div>
+
+          <!-- FAQ Item 4 -->
+          <div class="faq-item-wrapper border border-gray-100 bg-white rounded-2xl p-0 shadow-sm">
+            <button class="w-full flex items-center justify-between faq-toggle p-5 text-left" aria-expanded="false">
+              <span class="text-lg font-light text-siteblack">Will I get support after the class?</span>
+              <svg class="w-6 h-6 transform transition duration-300 text-green-700 faq-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+            </button>
+            <div class="faq-panel px-5 pt-0 text-subgray text-base leading-relaxed overflow-hidden max-h-0 transition-all duration-300">
+              <div class="pb-5">Absolutely. You receive lifetime access to our exclusive student community for continuous support, mentorship, and market updates.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2 FAQs -->
+        <div class="space-y-4">
+          <!-- FAQ Item 5 -->
+          <div class="faq-item-wrapper border border-gray-100 bg-white rounded-2xl p-0 shadow-sm">
+            <button class="w-full flex items-center justify-between faq-toggle p-5 text-left" aria-expanded="false">
+              <span class="text-lg font-light text-siteblack">Is there a certificate?</span>
+              <svg class="w-6 h-6 transform transition duration-300 text-green-700 faq-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+            </button>
+            <div class="faq-panel px-5 pt-0 text-subgray text-base leading-relaxed overflow-hidden max-h-0 transition-all duration-300">
+              <div class="pb-5">Yes, upon successful completion of the course modules and final assessment, you will receive a certificate of completion from Kobohive Academy.</div>
+            </div>
+          </div>
+
+          <!-- FAQ Item 6 -->
+          <div class="faq-item-wrapper border border-gray-100 bg-white rounded-2xl p-0 shadow-sm">
+            <button class="w-full flex items-center justify-between faq-toggle p-5 text-left" aria-expanded="false">
+              <span class="text-lg font-light text-siteblack">What if I don't understand something?</span>
+              <svg class="w-6 h-6 transform transition duration-300 text-green-700 faq-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+            </button>
+            <div class="faq-panel px-5 pt-0 text-subgray text-base leading-relaxed overflow-hidden max-h-0 transition-all duration-300">
+              <div class="pb-5">You can ask questions during the live sessions or post them in the dedicated student support channels anytime. Our instructors and mentors are here to help.</div>
+            </div>
+          </div>
+
+          <!-- FAQ Item 7 -->
+          <div class="faq-item-wrapper border border-gray-100 bg-white rounded-2xl p-0 shadow-sm">
+            <button class="w-full flex items-center justify-between faq-toggle p-5 text-left" aria-expanded="false">
+              <span class="text-lg font-light text-siteblack">How much money do I need to start investing?</span>
+              <svg class="w-6 h-6 transform transition duration-300 text-green-700 faq-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+            </button>
+            <div class="faq-panel px-5 pt-0 text-subgray text-base leading-relaxed overflow-hidden max-h-0 transition-all duration-300">
+              <div class="pb-5">You can start with as little as $10 (or its Naira equivalent) on fractional share platforms. We teach you how to start small and grow your portfolio safely.</div>
+            </div>
+          </div>
+
+          <!-- FAQ Item 8 -->
+          <div class="faq-item-wrapper border border-gray-100 bg-white rounded-2xl p-0 shadow-sm">
+            <button class="w-full flex items-center justify-between faq-toggle p-5 text-left" aria-expanded="false">
+              <span class="text-lg font-light text-siteblack">Can I pay in installments?</span>
+              <svg class="w-6 h-6 transform transition duration-300 text-green-700 faq-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+            </button>
+            <div class="faq-panel px-5 pt-0 text-subgray text-base leading-relaxed overflow-hidden max-h-0 transition-all duration-300">
+              <div class="pb-5">We offer installment payment plans for certain courses. Please check the course registration page for specific options and availability.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section with Sourced Background Image -->
+  <section class="py-20 relative bg-cover bg-center" style="background-image: url('./assets/CTA.svg');">
+      <!-- Dark Overlay -->
+      <div class="absolute inset-0 bg-black/50"></div>
+      
+      <!-- Content -->
+      <div class="relative z-10 max-w-6xl mx-auto px-6 lg:px-8">
+          <div class="py-24 text-white text-center">
+              <div class="max-w-2xl mx-auto">
+                  <!-- Main Heading -->
+                  <h3 class="text-4xl sm:text-5xl font-light mb-6">
+                      Join 100,000 Future <span class="font-semibold text-amber-400 italic">Investors</span>
+                  </h3>
+                  
+                  <!-- Subtitle -->
+                  <p class="text-lg font-light mb-10 leading-relaxed">
+                      Your journey to financial confidence starts today<br>
+                      Take the step learn to invest the right way.
+                  </p>
+                  
+                  <!-- CTA Button -->
+                  <button class="bg-white text-gray-900 font-semibold px-10 py-4 rounded-xl text-lg shadow-2xl hover:bg-gray-50 transition-all duration-300 transform hover:scale-105">
+                      Get Started
+                  </button>
+              </div>
+          </div>
+      </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer class="bg-brand text-white py-12 px-6 lg:px-8 font-sans">
+    <!-- Main content container with white background and reduced border radius and padding -->
+    <div class="max-w-7xl mx-auto bg-white rounded-3xl p-8 lg:p-12 shadow-2xl">
+        <div class="text-siteblack">
+            <!-- Main Footer Grid (4 Columns) with custom spacing -->
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-y-12">
+                <!-- 1. Logo and Tagline (Column 1) - Takes 3 columns -->
+                <div class="md:col-span-3">
+                    <!-- Logo Block -->
+                    <div class="flex items-center space-x-3">
+                        <img src="./assets/F1.svg" alt="Kobohive" class="w-12 h-12">
+                        <span class="text-2xl font-semibold tracking-tight text-brand">Kobohive</span>
+                    </div>
+                    <p class="mt-4 text-sm font-light text-siteblack opacity-90">BUILDING LASTING WEALTH</p>
+                </div>
+
+                <!-- 2. Company Links (Column 2) - Takes 2 columns with left margin -->
+                <div class="md:col-span-2 md:ml-12">
+                    <h4 class="text-gold font-normal mb-4 uppercase text-sm tracking-widest">COMPANY</h4>
+                    <ul class="space-y-3 text-sm font-light text-siteblack">
+                        <li><a href="#" class="hover:text-gold transition duration-200">ABOUT</a></li>
+                        <li><a href="#" class="hover:text-gold transition duration-200">OUR MISSION</a></li>
+                        <li><a href="#" class="hover:text-gold transition duration-200">CAREERS</a></li>
+                        <li><a href="#" class="hover:text-gold transition duration-200">CONTACT</a></li>
+                    </ul>
+                </div>
+
+                <!-- 3. Social Media Links (Column 3) - Takes 3 columns with left margin -->
+                <div class="md:col-span-3 md:ml-8">
+                    <h4 class="text-gold font-normal mb-4 uppercase text-sm tracking-widest">SOCIAL</h4>
+                    <ul class="space-y-3 text-sm text-siteblack">
+                        
+                        <!-- Social Link 1: Facebook -->
+                        <li>
+                            <a href="#" class="flex items-center group">
+                                <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gold transition-colors duration-200 group-hover:bg-brand">
+                                    <img src="./assets/F2.svg" alt="Facebook" class="w-4 h-4">
+                                </div>
+                                <span class="ml-3 font-light group-hover:text-gold transition duration-200">FOLLOW US ON FACEBOOK</span>
+                            </a>
+                        </li>
+
+                        <!-- Social Link 2: Instagram -->
+                        <li>
+                            <a href="#" class="flex items-center group">
+                                <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gold transition-colors duration-200 group-hover:bg-brand">
+                                    <img src="./assets/F3.svg" alt="Instagram" class="w-4 h-4">
+                                </div>
+                                <span class="ml-3 font-light group-hover:text-gold transition duration-200">FOLLOW US ON INSTAGRAM</span>
+                            </a>
+                        </li>
+
+                        <!-- Social Link 3: X (Twitter) -->
+                        <li>
+                            <a href="#" class="flex items-center group">
+                                <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gold transition-colors duration-200 group-hover:bg-brand">
+                                    <img src="./assets/F4.svg" alt="Twitter" class="w-4 h-4">
+                                </div>
+                                <span class="ml-3 font-light group-hover:text-gold transition duration-200">FOLLOW US ON X</span>
+                            </a>
+                        </li>
+
+                        <!-- Social Link 4: TikTok -->
+                        <li>
+                            <a href="#" class="flex items-center group">
+                                <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gold transition-colors duration-200 group-hover:bg-brand">
+                                    <img src="./assets/F5.svg" alt="TikTok" class="w-4 h-4">
+                                </div>
+                                <span class="ml-3 font-light group-hover:text-gold transition duration-200">FOLLOW US ON TIKTOK</span>
+                            </a>
+                        </li>
+
+                        <!-- Social Link 5: Substack -->
+                        <li>
+                            <a href="#" class="flex items-center group">
+                                <div class="w-8 h-8 flex items-center justify-center rounded-full bg-gold transition-colors duration-200 group-hover:bg-brand">
+                                    <img src="./assets/F6.svg" alt="Substack" class="w-4 h-4">
+                                </div>
+                                <span class="ml-3 font-light group-hover:text-gold transition duration-200">FOLLOW US ON SUBSTACK</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 4. Join the Hive / Newsletter Signup (Column 4) - Takes 4 columns -->
+                <div class="md:col-span-4">
+                    <!-- Newsletter box uses the darker brand color, brand-700, to stand out -->
+                    <div class="bg-brand-700 p-6 rounded-2xl text-white">
+                        <h4 class="font-semibold mb-2 text-lg">JOIN THE HIVE</h4>
+                        <p class="text-xs font-light opacity-80 mb-4">
+                            Get the latest Kobohive updates straight to your inbox.
+                        </p>
+                        
+                        <!-- Form placeholder -->
+                        <form onsubmit="event.preventDefault(); console.log('Subscribed!');">
+                            <input 
+                                type="email" 
+                                placeholder="Your e-mail..." 
+                                required
+                                class="w-full p-3 mb-4 rounded-xl text-siteblack placeholder-subgray border-none focus:ring-gold focus:border-gold"
+                            />
+                            <!-- Button with hover effect: bg-white and text-brand -->
+                            <button 
+                                type="submit"
+                                class="w-full bg-brand border border-white/20 text-white font-medium tracking-wide py-3 rounded-xl transition duration-200
+                                       hover:bg-white hover:text-brand hover:border-brand"
+                            >
+                                GET IN TOUCH
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Final Copyright text, centered, using subgray color, placed below the white content box -->
+            <div class="mt-12 text-center text-xs text-subgray border-t border-subgray/30 pt-6">
+                &copy; 2025 Kobohive. All rights reserved.
+            </div>
+        </div>
+    </div>
+</footer>
+  <!-- JavaScript -->
+  <script>
+    // Mobile menu toggle
+    const mobileBtn = document.getElementById('mobileBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+    // Workshop slider navigation
+    const track = document.getElementById('workshopTrack');
+    const prevBtn = document.getElementById('prevWs');
+    const nextBtn = document.getElementById('nextWs');
+    const scrollAmount = 420;
+
+    nextBtn?.addEventListener('click', () => {
+      track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+
+    prevBtn?.addEventListener('click', () => {
+      track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    });
+
+    // FAQ accordion functionality
+    document.querySelectorAll('.faq-toggle').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const panel = btn.nextElementSibling;
+        const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+        
+        // Close all other panels
+        document.querySelectorAll('.faq-panel').forEach(p => {
+          if (p !== panel) {
+            p.style.maxHeight = '0';
+          }
+        });
+        
+        // Reset all other buttons
+        document.querySelectorAll('.faq-toggle').forEach(b => {
+          if (b !== btn) {
+            b.setAttribute('aria-expanded', 'false');
+          }
+        });
+        
+        // Toggle current panel
+        if (isExpanded) {
+          panel.style.maxHeight = '0';
+          btn.setAttribute('aria-expanded', 'false');
+        } else {
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    // Scroll reveal animation
+    const reveals = Array.from(document.querySelectorAll('[data-reveal]'));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const idx = reveals.indexOf(el);
+          setTimeout(() => el.classList.add('visible'), Math.min(300, idx * 80));
+          io.unobserve(el);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(r => io.observe(r));
+
+    // Auto-scrolling carousel
+    document.addEventListener('DOMContentLoaded', () => {
+      const carousel = document.getElementById('card-carousel');
+      if (carousel) {
+        let scrollSpeed = 0.5;
+        let lastScrollTime;
+        
+        function autoScroll(timestamp) {
+          if (!lastScrollTime) lastScrollTime = timestamp;
+          const elapsed = timestamp - lastScrollTime;
+          const scrollAmount = scrollSpeed * (elapsed / 16.67);
+          
+          carousel.scrollLeft += scrollAmount;
+          
+          // Reset when reaching the end
+          if (carousel.scrollLeft >= carousel.scrollWidth / 2) {
+            carousel.scrollLeft = 0;
+          }
+          
+          lastScrollTime = timestamp;
+          window.requestAnimationFrame(autoScroll);
+        }
+        
+        let animationFrameId = window.requestAnimationFrame(autoScroll);
+        
+        // Pause on hover
+        carousel.addEventListener('mouseenter', () => {
+          cancelAnimationFrame(animationFrameId);
+        });
+        
+        carousel.addEventListener('mouseleave', () => {
+          lastScrollTime = null;
+          animationFrameId = window.requestAnimationFrame(autoScroll);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
