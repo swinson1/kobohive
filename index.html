@@ -683,7 +683,7 @@
   </section>
 
   <!-- Why Learn Section -->
- <section class="bg-white py-12 section-padding">
+  <section class="bg-white py-12 section-padding">
     <div class="max-w-6xl mx-auto px-6 lg:px-8 mb-10">
       <div class="text-center">
         <p class="text-sm font-light text-green-700">Learn With Us</p>
@@ -696,7 +696,8 @@
       </div>
     </div>
 
-    <div id="card-carousel" class="flex gap-6 overflow-x-auto py-3 scrollbar-hide **px-6 lg:px-8 -mx-6 lg:-mx-8**">
+    <!-- Fixed: Apply negative margins to both left AND right sides -->
+    <div id="card-carousel" class="flex gap-6 overflow-x-auto py-3 scrollbar-hide -mx-6 lg:-mx-8">
       <div class="min-w-[240px] rounded-xl overflow-hidden transition duration-300 original-card" data-reveal>
         <img src="./assets/WL1.png" alt="Card 1" class="w-full h-full object-cover min-h-[300px]"/>
       </div>
